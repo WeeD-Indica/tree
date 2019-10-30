@@ -5,12 +5,11 @@ typedef struct node
 {
   int data;
   struct node* left;
-  struct node* root;
   struct node* right;
 }node;
 
-node* t;
-void insert(int x);
+node* t=NULL,*tptr;
+void insert(int n);
 int traversal(int c,node*tptr);
 void deletion(node* tptr);
 node* search(int x);
@@ -23,7 +22,7 @@ void main()
   do
     {
       tptr=t;
-      printf("1.Insertion\n2.Travesal\n3.Deletion\n4.Searching\n");
+      printf("1.Insertion\n2.Travesal\n3.Deletion\n");
       scanf("%d",&choice);
       switch(choice)
 	{
@@ -48,27 +47,24 @@ void main()
     }while(ch);
 }
 
-void insert(int x)
+void insert(int n)
 {
-  node*curr=t;
-  node*prev=NULL;
-  node* newnode=malloc(sizeof(node*));
-  newnode->data=x;
-  newnode->left=NULL;
-  newnode->right=NULL;
-  if(t==NULL)
-    {
-      t=newnode;
+  node* cur=t,*prev=NULL;
+    node* newnode=malloc(sizeof(node*));
+    newnode->data=n;
+    newnode->right=NULL;
+    newnode->left=NULL;
+    if(t==NULL) t=newnode;
+    else{
+    while(cur!=NULL){
+        prev=cur;
+        if(n==cur->data) break;
+        else if(n>cur->data) cur=cur->right;
+        else if(n<cur->data) cur=cur->left;
     }
-  while(curr!=NULL)
-    {
-      prev=curr;
-      if(x==curr->data) break;
-      else if(x>curr->data) curr=curr->right;
-      else if(x<curr->data) curr=curr->left;
+    if(prev->data<n) prev->right=newnode;
+    else prev->left=newnode;
     }
-  if(prev->data<x) prev->right=newnode;
-  else prev->left=newnode;
 }
 int traversal(int c,node* tptr)
 {
@@ -79,24 +75,29 @@ int traversal(int c,node* tptr)
 	printf("%d",tptr->data);
 	traversal(1,tptr->left);
 	traversal(1,tptr->right);
+	return  0;
       }
     }
   if (c==2)     //LNR
     {
      if(tptr==NULL) return 0;
-      else{
-	traversal(2,tptr->left);
-	printf("%d",tptr->data);
-	traversal(2,tptr->right);
+      else
+      {
+	    traversal(2,tptr->left);
+	    printf("%d",tptr->data);
+	    traversal(2,tptr->right);
+        return 0;  
       }
     }
   if (c==3)     //LRN
     {
       if(tptr==NULL) return 0;
-      else{
-	traversal(3,tptr->left);
-	traversal(3,tptr->right);
-	printf("%d",tptr->data);
+      else
+      {
+          traversal(3,tptr->left);
+	      traversal(3,tptr->right);
+	      printf("%d",tptr->data);
+	      return 0;
       }
     }
   else
